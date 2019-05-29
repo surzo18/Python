@@ -1,0 +1,62 @@
+{% extends 'yl/base_layout.html' %}
+{% load static %}
+
+{% block content %}
+  <!-- Page Content -->
+  <!-- SECTION -->
+	<div class="section">
+		<!-- container -->
+		<div class="container">
+
+			<div class="row" id="news">
+				<h3 class="">Všetky články</h3>
+			</div>
+
+      <div class="row">
+				{% for item in articles%}
+					<div class="col-md-4">
+						<div class="card mb-4 shadow-sm">
+							<a href="{% url 'yl:article' item.id %}">
+								<img src="{{ MEDIA_URL }}{{ item.article_image }}" alt="item" class="bd-placeholder-img card-img-top" width="100%" height="225">
+							</a>
+							<div class="card-body">
+								<p class="card-text">{{item.article_title}}</p>
+								<div class="d-flex justify-content-between align-items-center">
+									<div class="btn-group">
+										<a href="{% url 'yl:article' item.id %}" id="read-more-btn"  class="btn btn-warning btn-sm btn-outline-secondary">Viac</a>
+									</div>
+									<small class="text-muted">{{item.article_created}}</small>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+
+			</div>
+				
+			<div class="row text-center pages">
+					<ul>
+						{% if articles.has_previous %}
+							<a href="{% url 'yl:page' page_number=1 %}"><li class="btn-lg btn">&laquo; first</li></a>
+							<a href="{% url 'yl:page' articles.previous_page_number %}"><li class="btn-lg btn">{{ articles.previous_page_number }}</li></a>
+						{% endif %}
+				
+						<a href="#news"><li class="btn-lg btn" id="page-active">{{ articles.number }}</li></a>
+	
+				
+						{% if articles.has_next %}
+							<a href="{% url 'yl:page' articles.next_page_number %}"><li class="btn-lg btn">{{ articles.next_page_number }}</li></a>
+							<a href="{% url 'yl:page' articles.paginator.num_pages %}"><li class="btn-lg btn">last &raquo;</li></a>
+						{% endif %}
+	
+					</ul>
+				</div>
+
+		</div>
+		<!-- /container -->
+	</div>
+
+
+
+  {% endblock %}
+
